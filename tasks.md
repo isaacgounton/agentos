@@ -116,4 +116,4 @@ These tools provide comprehensive social media management capabilities through P
 
 __download_media_api_v1_media_download_post__ - Download media from URLs with intelligent format detection
 
-source venv/bin/activate && python social_media_agentos.py
+source venv/bin/activate && python etugrand_agentos.py
