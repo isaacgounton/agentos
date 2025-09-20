@@ -25,13 +25,12 @@ from agents.research_agent import research_agent
 from agents.analytics_agent import analytics_agent
 from agents.twitter_agent import twitter_agent
 from agents.linkedin_agent import linkedin_agent
-from agents.youtube_platform_agent import youtube_agent as youtube_platform_agent
+from agents.youtube_agent import youtube_agent as youtube_platform_agent
 from agents.reddit_agent import reddit_agent
 
 # Import existing agents from agents/ directory
 from agents.competitor_analysis_agent import *
 from agents.media_trend_analysis_agent import *
-from agents.social_media_agent import *
 from agents.startup_idea_validator import *
 from agents.web_extraction_agent import *
 from agents.web_search import *
@@ -67,14 +66,8 @@ def initialize_knowledge_base():
         embeddings_available = True
         print("✅ Sentence transformers available - knowledge base will include semantic search")
     except ImportError:
-        try:
-            # Fallback: check if chonkie with sentence transformers is available
-            import chonkie
-            embeddings_available = True
-            print("✅ Chonkie embeddings available - knowledge base will include semantic search")
-        except ImportError:
-            embeddings_available = False
-            print("⚠️  No embeddings library available - knowledge base will work without semantic search")
+        embeddings_available = False
+        print("⚠️  Sentence transformers not available - knowledge base disabled")
 
     if embeddings_available:
         try:
@@ -84,7 +77,7 @@ def initialize_knowledge_base():
 
             print("📚 Loading knowledge base content...")
             knowledge.add_content(
-                url="https://docs.agno.com/introduction",
+                url="https://etugrand.com",
                 reader=WebsiteReader(max_links=10),
             )
             print("✅ Knowledge base content loaded successfully")
@@ -98,8 +91,9 @@ def initialize_knowledge_base():
 initialize_knowledge_base()
 
 def collect_all_agents():
-    """Collect all agent objects from imported modules."""
+    """Collect all agent objects from the global namespace."""
     import sys
+    from agno.agent import Agent
     agents = []
 
     # Add explicitly imported agents
@@ -110,23 +104,23 @@ def collect_all_agents():
     ]
     agents.extend(explicit_agents)
 
-    # Collect agents from wildcard imports
-    modules_to_check = ['agents', 'agents_exemple']
-    for module_name in modules_to_check:
-        if module_name in sys.modules:
-            module = sys.modules[module_name]
-            for attr_name in dir(module):
-                if not attr_name.startswith('_'):
-                    attr = getattr(module, attr_name)
-                    # Check if it's an Agent instance (basic check)
-                    if hasattr(attr, 'name') and hasattr(attr, 'role') and hasattr(attr, 'model'):
-                        if attr not in agents:  # Avoid duplicates
-                            agents.append(attr)
+    # Collect agents from wildcard imports by checking global namespace
+    current_module = sys.modules[__name__]
+    for attr_name in dir(current_module):
+        if not attr_name.startswith('_'):
+            attr = getattr(current_module, attr_name)
+            # Check if it's an Agent instance (proper type checking)
+            if (isinstance(attr, Agent) and
+                attr not in agents and
+                attr not in [content_agent, engagement_agent, image_agent,
+                video_agent, audio_agent, publisher_scheduler_agent, operations_manager_agent,
+                research_agent, analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent]):
+                agents.append(attr)
 
     return agents
 
 def collect_all_teams():
-    """Collect all team objects from imported modules."""
+    """Collect all team objects from the global namespace."""
     import sys
     teams = []
 
@@ -134,21 +128,21 @@ def collect_all_teams():
     explicit_teams = [operations_team, platform_team, strategy_team]
     teams.extend(explicit_teams)
 
-    # Collect teams from wildcard imports
-    if 'teams' in sys.modules:
-        teams_module = sys.modules['teams']
-        for attr_name in dir(teams_module):
-            if not attr_name.startswith('_'):
-                attr = getattr(teams_module, attr_name)
-                # Check if it's a Team instance (basic check)
-                if hasattr(attr, 'name') and hasattr(attr, 'members') and hasattr(attr, 'model'):
-                    if attr not in teams:  # Avoid duplicates
-                        teams.append(attr)
+    # Collect teams from wildcard imports by checking global namespace
+    current_module = sys.modules[__name__]
+    for attr_name in dir(current_module):
+        if not attr_name.startswith('_'):
+            attr = getattr(current_module, attr_name)
+            # Check if it's a Team instance
+            if (hasattr(attr, 'name') and hasattr(attr, 'members') and hasattr(attr, 'model') and
+                hasattr(attr, 'instructions') and attr not in teams and
+                attr not in [operations_team, platform_team, strategy_team]):
+                teams.append(attr)
 
     return teams
 
 def collect_all_workflows():
-    """Collect all workflow objects from imported modules."""
+    """Collect all workflow objects from the global namespace."""
     import sys
     workflows = []
 
@@ -156,16 +150,16 @@ def collect_all_workflows():
     explicit_workflows = [operations_workflow, daily_operations_workflow, crisis_workflow, campaign_workflow]
     workflows.extend(explicit_workflows)
 
-    # Collect workflows from wildcard imports
-    if 'workflow' in sys.modules:
-        workflow_module = sys.modules['workflow']
-        for attr_name in dir(workflow_module):
-            if not attr_name.startswith('_'):
-                attr = getattr(workflow_module, attr_name)
-                # Check if it's a Workflow instance (basic check)
-                if hasattr(attr, 'name') and hasattr(attr, 'description'):
-                    if attr not in workflows:  # Avoid duplicates
-                        workflows.append(attr)
+    # Collect workflows from wildcard imports by checking global namespace
+    current_module = sys.modules[__name__]
+    for attr_name in dir(current_module):
+        if not attr_name.startswith('_'):
+            attr = getattr(current_module, attr_name)
+            # Check if it's a Workflow instance
+            if (hasattr(attr, 'name') and hasattr(attr, 'description') and hasattr(attr, 'steps') and
+                attr not in workflows and attr not in [operations_workflow, daily_operations_workflow,
+                crisis_workflow, campaign_workflow]):
+                workflows.append(attr)
 
     return workflows
 

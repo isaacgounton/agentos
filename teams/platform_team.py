@@ -8,7 +8,7 @@ from config.database import db
 # Import agents
 from agents.twitter_agent import twitter_agent
 from agents.linkedin_agent import linkedin_agent
-from agents.youtube_platform_agent import youtube_agent
+from agents.youtube_agent import youtube_agent
 from agents.reddit_agent import reddit_agent
 
 platform_team = Team(

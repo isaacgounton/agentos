@@ -36,6 +36,13 @@ google-genai
 newspaper4k
 lxml_html_clean
 chonkie
+tweepy
+arxiv
+aiofiles
+python-docx
+wikipedia
+unstructured
+markdown
 # sentence-transformers  # Optional: for semantic embeddings in knowledge base
 
 # Required for various agent tools
