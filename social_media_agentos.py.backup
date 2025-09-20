@@ -1,0 +1,203 @@
+"""
+Social Media AgentOS - Proper implementation following AgentOS patterns
+"""
+
+import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+from agno.agent import Agent
+from agno.db.postgres import PostgresDb
+from agno.knowledge.knowledge import Knowledge
+from agno.models.openrouter import OpenRouter
+from agno.os import AgentOS
+from agno.team import Team
+from agno.tools.duckduckgo import DuckDuckGoTools
+from agno.tools.mcp import MCPTools
+from agno.vectordb.pgvector import PgVector
+from agno.workflow.workflow import Workflow
+from agno.workflow.step import Step
+
+# Database setup
+db_url = os.getenv("DATABASE_URL", "postgresql+psycopg://ai:ai@localhost:5532/ai")
+db = PostgresDb(db_url=db_url)
+
+# Vector database for knowledge (using OpenAI for embeddings)
+vector_db = PgVector(
+    db_url=db_url,
+    table_name="social_media_knowledge",
+)
+
+# Knowledge base for social media content and strategies
+knowledge = Knowledge(
+    name="Social Media Knowledge",
+    contents_db=db,
+    vector_db=vector_db,
+)
+
+# Content creation agent
+content_agent = Agent(
+    name="Content Creator",
+    role="Create engaging social media content",
+    model=OpenRouter(
+        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        api_key=os.getenv("OPENROUTER_API_KEY")
+    ),
+    tools=[
+        MCPTools(
+            transport="streamable-http",
+            url="https://mcp.sequa.ai/v1/pollinations/contribute",
+            name="pollinations"
+        ),
+        DuckDuckGoTools(),
+    ],
+    db=db,
+    knowledge=knowledge,
+    enable_user_memories=True,
+    enable_session_summaries=True,
+    add_history_to_context=True,
+    num_history_runs=3,
+    add_datetime_to_context=True,
+    markdown=True,
+    instructions="""
+    You are a social media content creator. Your role is to:
+    1. Create engaging, platform-optimized content
+    2. Suggest relevant hashtags and mentions
+    3. Adapt content for different platforms (Twitter, LinkedIn, Instagram, etc.)
+    4. Ensure content aligns with brand voice and objectives
+    5. Generate content calendars and themes
+    6. Use Pollinations MCP for generating images, videos, and audio content
+    """,
+)
+
+# Engagement analysis agent
+engagement_agent = Agent(
+    name="Engagement Analyst",
+    role="Analyze social media engagement and performance",
+    model=OpenRouter(
+        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        api_key=os.getenv("OPENROUTER_API_KEY")
+    ),
+    tools=[
+        DuckDuckGoTools(),
+        MCPTools(transport="streamable-http", url="https://mcp.sequa.ai/v1/pollinations/contribute"),
+    ],
+    db=db,
+    knowledge=knowledge,
+    enable_user_memories=True,
+    enable_session_summaries=True,
+    add_history_to_context=True,
+    num_history_runs=3,
+    add_datetime_to_context=True,
+    markdown=True,
+    instructions="""
+    You are an engagement analysis specialist. Your role is to:
+    1. Analyze post performance and engagement metrics
+    2. Identify trends and patterns in audience behavior
+    3. Provide recommendations for content optimization
+    4. Monitor competitor performance
+    5. Generate engagement reports and insights
+    6. Use Pollinations MCP for analyzing visual content performance
+    """,
+)
+
+# Scheduling agent
+scheduler_agent = Agent(
+    name="Content Scheduler",
+    role="Optimize posting schedules and timing",
+    model=OpenRouter(
+        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        api_key=os.getenv("OPENROUTER_API_KEY")
+    ),
+    tools=[
+        DuckDuckGoTools(),
+        MCPTools(transport="streamable-http", url="https://mcp.sequa.ai/v1/pollinations/contribute"),
+    ],
+    db=db,
+    knowledge=knowledge,
+    enable_user_memories=True,
+    enable_session_summaries=True,
+    add_history_to_context=True,
+    num_history_runs=3,
+    add_datetime_to_context=True,
+    markdown=True,
+    instructions="""
+    You are a scheduling specialist. Your role is to:
+    1. Determine optimal posting times for different platforms
+    2. Create content calendars and posting schedules
+    3. Coordinate multi-platform posting campaigns
+    4. Monitor posting performance and adjust schedules
+    5. Handle time zone considerations for global audiences
+    6. Use Pollinations MCP for scheduling multimedia content
+    """,
+)
+
+# Social media team
+social_media_team = Team(
+    id="social-media-team",
+    name="Social Media Management Team",
+    model=OpenRouter(
+        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        api_key=os.getenv("OPENROUTER_API_KEY")
+    ),
+    db=db,
+    members=[content_agent, engagement_agent, scheduler_agent],
+    enable_user_memories=True,
+    add_datetime_to_context=True,
+    markdown=True,
+    instructions="""
+    You are a social media management team. Work together to:
+    1. Create comprehensive social media strategies
+    2. Coordinate content creation and scheduling
+    3. Analyze performance and optimize campaigns
+    4. Provide actionable insights for growth
+    5. Leverage Pollinations MCP for multimedia content creation
+    """,
+)
+
+# Content creation workflow
+content_workflow = Workflow(
+    id="content-creation-workflow",
+    name="Content Creation Workflow",
+    description="End-to-end content creation and publishing workflow",
+    db=db,
+    steps=[
+        Step(
+            name="research_topic",
+            description="Research trending topics and audience interests",
+            agent=engagement_agent,
+        ),
+        Step(
+            name="create_content",
+            description="Create engaging content based on research",
+            agent=content_agent,
+        ),
+        Step(
+            name="schedule_post",
+            description="Schedule the content for optimal timing",
+            agent=scheduler_agent,
+        ),
+        Step(
+            name="review_and_publish",
+            description="Review content and publish to platforms",
+            agent=content_agent,
+        ),
+    ],
+)
+
+# Main AgentOS application
+agent_os = AgentOS(
+    os_id="social-media-agentos",
+    description="Social Media AgentOS - AI-powered social media management platform",
+    agents=[content_agent, engagement_agent, scheduler_agent],
+    teams=[social_media_team],
+    workflows=[content_workflow],
+)
+
+# Get the FastAPI app
+app = agent_os.get_app()
+
+if __name__ == "__main__":
+    agent_os.serve(app="social_media_agentos:app", port=7777)

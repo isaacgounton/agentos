@@ -1,0 +1,33 @@
+# Social Media AgentOS - Core Requirements
+
+# Core Agno framework
+agno
+
+# OpenAI integration (for embeddings)
+openai
+
+# Web framework for AgentOS
+fastapi[standard]
+uvicorn
+
+# Database and vector operations
+sqlalchemy
+pgvector
+psycopg2-binary
+psycopg
+
+# MCP (Model Context Protocol)
+mcp
+
+# Search tools
+ddgs
+
+# Additional utilities
+python-dotenv
+
+# Optional/Advanced (uncomment when needed):
+# lancedb
+# tantivy  # Required for LanceDB full-text search
+# duckduckgo-search
+# ddgs  # DuckDuckGo search library
+# exa-py
