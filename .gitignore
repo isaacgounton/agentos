@@ -149,3 +149,7 @@ agent_os/
 .cache_ggshield
 
 social_media_env/
+
+social.md
+tasks.md
+social_media_agentos.py.backup
