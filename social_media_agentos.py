@@ -3,6 +3,9 @@ Social Media AgentOS - Proper implementation following AgentOS patterns
 """
 
 import os
+import signal
+import sys
+from typing import Any
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -48,7 +51,18 @@ content_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "generate_script_api_v1_ai_script_generate_post",
+                "research_topic_api_v1_ai_news_research_post",
+                "search_stock_videos_api_v1_ai_video_search_stock_videos_post",
+                "search_stock_images_api_v1_ai_image_search_stock_images_post",
+                "download_media_api_v1_media_download_post",
+                "extract_metadata_api_v1_media_metadata_post",
+                "convert_document_to_markdown_api_v1_documents_to_markdown_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -67,9 +81,15 @@ content_agent = Agent(
     4. Ensure content aligns with brand voice and objectives
     5. Generate content themes and editorial calendars
     6. Use OUINHI MCP for:
-       - Creating text content with generate_text_api_pollinations_text_generate_post
-       - Creating chat completions with create_chat_completion_api_pollinations_chat_completions_post
        - Generating scripts with generate_script_api_v1_ai_script_generate_post
+       - Researching topics with research_topic_api_v1_ai_news_research_post
+       - Searching stock videos with search_stock_videos_api_v1_ai_video_search_stock_videos_post
+       - Searching stock images with search_stock_images_api_v1_ai_image_search_stock_images_post
+       - Downloading media with download_media_api_v1_media_download_post
+       - Extracting metadata with extract_metadata_api_v1_media_metadata_post
+       - Converting documents to markdown with convert_document_to_markdown_api_v1_documents_to_markdown_post
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     7. Coordinate with specialized media agents (Image, Video, Audio) for multimedia content
     8. Focus ONLY on text content creation - delegate media generation to specialized agents
     """,
@@ -87,7 +107,16 @@ engagement_agent = Agent(
         DuckDuckGoTools(),
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "analyze_image_vision_api_pollinations_vision_analyze_post",
+                "create_transcriptions_job_api_v1_audio_transcriptions_post",
+                "transcribe_audio_api_pollinations_audio_transcribe_post",
+                "research_topic_api_v1_ai_news_research_post",
+                "extract_metadata_api_v1_media_metadata_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -107,8 +136,12 @@ engagement_agent = Agent(
     5. Generate engagement reports and insights
     6. Use OUINHI Pollinations MCP for:
        - Analyzing images with analyze_image_vision_api_pollinations_vision_analyze_post
-       - Analyzing uploaded images with analyze_uploaded_image_api_pollinations_vision_analyze_upload_post
-       - Transcribing audio content with transcribe_audio_api_pollinations_audio_transcribe_post
+       - Creating transcription jobs with create_transcriptions_job_api_v1_audio_transcriptions_post
+       - Transcribing audio with transcribe_audio_api_pollinations_audio_transcribe_post
+       - Researching topics with research_topic_api_v1_ai_news_research_post
+       - Extracting metadata with extract_metadata_api_v1_media_metadata_post
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     7. Use DuckDuckGo for researching trends and competitor analysis
     """,
 )
@@ -128,9 +161,8 @@ publisher_scheduler_agent = Agent(
             include_tools=[
                 "get_integrations_api_v1_postiz_integrations_get",
                 "schedule_post_api_v1_postiz_schedule_post",
-                "schedule_job_post_api_v1_postiz_schedule_job_post",
-                "schedule_post_now_api_v1_postiz_schedule_now_post",
-                "create_draft_post_api_v1_postiz_create_draft_post"
+                "check_job_status",
+                "async_workflow_guide"
             ]
         ),
     ],
@@ -151,9 +183,8 @@ publisher_scheduler_agent = Agent(
     5. Use OUINHI MCP for Postiz Social Media Tools:
        - Getting available integrations with get_integrations_api_v1_postiz_integrations_get
        - Scheduling posts with schedule_post_api_v1_postiz_schedule_post
-       - Scheduling posts from jobs with schedule_job_post_api_v1_postiz_schedule_job_post
-       - Posting immediately with schedule_post_now_api_v1_postiz_schedule_now_post
-       - Posting as draft posts with create_draft_post_api_v1_postiz_create_draft_post
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     """,
 )
 
@@ -168,7 +199,18 @@ image_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "generate_image_api_v1_images_generate_post",
+                "generate_image_api_pollinations_image_generate_post",
+                "edit_image_api_v1_images_edit_post",
+                "create_image_enhancement_job_api_v1_images_enhance_post",
+                "analyze_image_vision_api_pollinations_vision_analyze_post",
+                "list_image_models_api_pollinations_models_image_get",
+                "search_stock_images_api_v1_ai_image_search_stock_images_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -191,10 +233,15 @@ image_agent = Agent(
        - NEVER ask users to manually check status or download results
        - Return the final image file or URL directly to the user
     6. Use OUINHI Pollinations MCP for:
+       - Generating images with generate_image_api_v1_images_generate_post
        - Generating images with generate_image_api_pollinations_image_generate_post
+       - Editing images with edit_image_api_v1_images_edit_post
+       - Creating image enhancement jobs with create_image_enhancement_job_api_v1_images_enhance_post
        - Analyzing images with analyze_image_vision_api_pollinations_vision_analyze_post
-       - Analyzing uploaded images with analyze_uploaded_image_api_pollinations_vision_analyze_upload_post
        - Listing available models with list_image_models_api_pollinations_models_image_get
+       - Searching stock images with search_stock_images_api_v1_ai_image_search_stock_images_post
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     7. Focus ONLY on image generation and processing - do not handle text, video, or audio creation
     """,
 )
@@ -210,7 +257,23 @@ video_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "generate_video_api_v1_videos_generate_post",
+                "generate_video_from_image_api_v1_videos_from_image_post",
+                "create_video_edit_job_api_v1_videos_edit_post",
+                "create_merge_job_api_v1_videos_merge_post",
+                "create_add_captions_job_api_v1_videos_add_captions_post",
+                "create_text_overlay_job_api_v1_videos_text_overlay_post",
+                "create_thumbnails_job_api_v1_videos_thumbnails_post",
+                "generate_script_api_v1_ai_script_generate_post",
+                "search_stock_videos_api_v1_ai_video_search_stock_videos_post",
+                "convert_media_api_v1_conversions__post",
+                "extract_metadata_api_v1_media_metadata_post",
+                "download_media_api_v1_media_download_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -228,15 +291,25 @@ video_agent = Agent(
     3. Generate video scripts from topics using AI
     4. Optimize videos for different social media platforms
     5. Handle asynchronous video generation jobs properly:
-       - When using create_video_generation_job_api_v1_videos_generations_post, create the job and immediately check status
+       - When using video generation tools, create the job and immediately check status
        - Return the status check response directly to the user (contains URL and completion status)
        - DO NOT ask users to manually check status or download - just return the API response
        - The status response typically contains the download URL when complete
     6. Use OUINHI Pollinations MCP for:
-       - Creating video generation jobs with create_video_generation_job_api_v1_videos_generations_post
-       - Checking job status with get_video_job_status_api_v1_videos_{job_id}_get
        - Generating videos from text with generate_video_api_v1_videos_generate_post
+       - Generating videos from images with generate_video_from_image_api_v1_videos_from_image_post
+       - Creating video edit jobs with create_video_edit_job_api_v1_videos_edit_post
+       - Creating video merge jobs with create_merge_job_api_v1_videos_merge_post
+       - Creating caption jobs with create_add_captions_job_api_v1_videos_add_captions_post
+       - Creating text overlay jobs with create_text_overlay_job_api_v1_videos_text_overlay_post
+       - Creating thumbnail jobs with create_thumbnails_job_api_v1_videos_thumbnails_post
        - Generating scripts with generate_script_api_v1_ai_script_generate_post
+       - Searching stock videos with search_stock_videos_api_v1_ai_video_search_stock_videos_post
+       - Converting media with convert_media_api_v1_conversions__post
+       - Extracting metadata with extract_metadata_api_v1_media_metadata_post
+       - Downloading media with download_media_api_v1_media_download_post
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     7. Focus ONLY on video generation and processing - do not handle images, text, or audio creation
     """,
 )
@@ -252,7 +325,16 @@ audio_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "create_speech_job_api_v1_audio_speech_post",
+                "transcribe_audio_api_pollinations_audio_transcribe_post",
+                "get_voices_formatted_api_v1_audio_voices_formatted_get",
+                "get_models_formatted_api_v1_audio_models_formatted_get",
+                "get_supported_providers_api_v1_audio_providers_get",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -276,10 +358,12 @@ audio_agent = Agent(
        - The status response typically contains the download URL when complete
     6. Use OUINHI Pollinations MCP for:
        - Creating speech jobs with create_speech_job_api_v1_audio_speech_post
-       - Checking job status with get_speech_job_status_api_v1_audio_speech_{job_id}_get
-       - Text-to-speech with text_to_speech_api_pollinations_audio_tts_post
        - Transcribing audio with transcribe_audio_api_pollinations_audio_transcribe_post
-       - Listing voices with list_available_voices_api_pollinations_voices_get
+       - Getting formatted voices with get_voices_formatted_api_v1_audio_voices_formatted_get
+       - Getting formatted models with get_models_formatted_api_v1_audio_models_formatted_get
+       - Getting supported providers with get_supported_providers_api_v1_audio_providers_get
+       - Checking job status with check_job_status
+       - Using async workflow guide with async_workflow_guide
     7. Focus ONLY on audio generation and processing - do not handle images, videos, or text creation
     """,
 )
@@ -298,7 +382,8 @@ social_media_manager_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[]
         ),
         DuckDuckGoTools()
     ] + ([multi_mcp] if multi_mcp else []),
@@ -322,6 +407,13 @@ social_media_manager_agent = Agent(
     8. Track KPIs and performance metrics
     9. Facilitate inter-agent communication and collaboration
     10. Adapt strategies based on real-time performance data
+    11. Use OUINHI MCP for:
+        - Researching topics with research_topic_api_v1_ai_news_research_post
+        - Generating AI content with generate_ai_content_api_v1_ai_generate_post
+        - Checking job status with check_job_status
+        - Using async workflow guide with async_workflow_guide
+        - Listing available tools with list_tools
+    12. Use DuckDuckGo for additional research and competitor analysis
     """,
 )
 
@@ -336,7 +428,17 @@ research_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "research_topic_api_v1_ai_news_research_post",
+                "search_stock_videos_api_v1_ai_video_search_stock_videos_post",
+                "search_stock_images_api_v1_ai_image_search_stock_images_post",
+                "download_media_api_v1_media_download_post",
+                "extract_metadata_api_v1_media_metadata_post",
+                "convert_document_to_markdown_api_v1_documents_to_markdown_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
         DuckDuckGoTools()
     ] + ([multi_mcp] if multi_mcp else []),
@@ -360,6 +462,16 @@ research_agent = Agent(
     8. Provide data-driven insights for content strategy
     9. Monitor brand mentions and sentiment
     10. Identify emerging platforms and technologies
+    11. Use OUINHI MCP for:
+        - Researching topics with research_topic_api_v1_ai_news_research_post
+        - Searching stock videos with search_stock_videos_api_v1_ai_video_search_stock_videos_post
+        - Searching stock images with search_stock_images_api_v1_ai_image_search_stock_images_post
+        - Downloading media with download_media_api_v1_media_download_post
+        - Extracting metadata with extract_metadata_api_v1_media_metadata_post
+        - Converting documents to markdown with convert_document_to_markdown_api_v1_documents_to_markdown_post
+        - Checking job status with check_job_status
+        - Using async workflow guide with async_workflow_guide
+    12. Use DuckDuckGo for additional research and web searches
     """,
 )
 
@@ -375,7 +487,16 @@ analytics_agent = Agent(
         DuckDuckGoTools(),
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp")
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            include_tools=[
+                "analyze_image_vision_api_pollinations_vision_analyze_post",
+                "transcribe_audio_api_pollinations_audio_transcribe_post",
+                "extract_metadata_api_v1_media_metadata_post",
+                "convert_document_to_markdown_api_v1_documents_to_markdown_post",
+                "research_topic_api_v1_ai_news_research_post",
+                "check_job_status",
+                "async_workflow_guide"
+            ]
         ),
     ],
     db=db,
@@ -398,6 +519,15 @@ analytics_agent = Agent(
     8. Generate predictive insights
     9. Create dashboards and visualizations
     10. Support data-driven decision making
+    11. Use OUINHI MCP for:
+        - Analyzing images with analyze_image_vision_api_pollinations_vision_analyze_post
+        - Transcribing audio with transcribe_audio_api_pollinations_audio_transcribe_post
+        - Extracting metadata with extract_metadata_api_v1_media_metadata_post
+        - Converting documents to markdown with convert_document_to_markdown_api_v1_documents_to_markdown_post
+        - Researching topics with research_topic_api_v1_ai_news_research_post
+        - Checking job status with check_job_status
+        - Using async workflow guide with async_workflow_guide
+    12. Use DuckDuckGo for additional research and web searches
     """,
 )
 
@@ -778,5 +908,24 @@ agent_os = AgentOS(
 # Get the FastAPI app
 app = agent_os.get_app()
 
+def signal_handler(signum: int, frame: Any) -> None:
+    """Handle shutdown signals gracefully"""
+    print("\n🛑 Received shutdown signal. Stopping Social Media AgentOS...")
+    print("Cleaning up connections...")
+    # Force exit to avoid MCP cleanup issues
+    os._exit(0)
+
 if __name__ == "__main__":
-    agent_os.serve(app="social_media_agentos:app", port=7777)
+    # Register signal handlers for graceful shutdown
+    signal.signal(signal.SIGINT, signal_handler)
+    signal.signal(signal.SIGTERM, signal_handler)
+    
+    try:
+        print("🚀 Starting Social Media AgentOS...")
+        agent_os.serve(app="social_media_agentos:app", port=7777)
+    except KeyboardInterrupt:
+        print("\n🛑 Social Media AgentOS stopped by user (Ctrl+C)")
+        os._exit(0)
+    except Exception as e:
+        print(f"\n❌ Error starting Social Media AgentOS: {e}")
+        os._exit(1)
