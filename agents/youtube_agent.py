@@ -65,11 +65,11 @@ youtube_agent = Agent(
     markdown=True,
 )
 
-# Example usage with different types of videos
-youtube_agent.print_response(
-    "Analyze this video: https://www.youtube.com/watch?v=zjkBMFhNj_g",
-    stream=True,
-)
+# Example usage (commented out to prevent auto-execution):
+# youtube_agent.print_response(
+#     "Analyze this video: https://www.youtube.com/watch?v=zjkBMFhNj_g",
+#     stream=True,
+# )
 
 # More example prompts to explore:
 """

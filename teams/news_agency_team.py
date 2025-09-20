@@ -66,4 +66,6 @@ editor = Team(
     debug_mode=True,
     show_members_responses=True,
 )
-editor.print_response("Write an article about latest developments in AI.")
+
+# Team definition only - execution handled by AgentOS
+# No standalone execution allowed

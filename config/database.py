@@ -1,6 +1,6 @@
 import os
-from agno.db.postgres import PostgresDb
+from agno.db.sqlite import SqliteDb
 
-# Database setup
-db_url = os.getenv("DATABASE_URL", "postgresql+psycopg://ai:ai@localhost:5532/ai")
-db = PostgresDb(db_url=db_url)
+# Database setup - using SQLite for development/demo
+db_file = os.getenv("DATABASE_FILE", "agentos.db")
+db = SqliteDb(db_file=db_file)

@@ -57,42 +57,132 @@ from workflow.campaign_workflow import campaign_workflow
 # Import existing workflows from workflow/ directory
 from workflow.blog_post_generator import *
 from workflow.research_agent import *
+# from workflow.research_workflow import *
+
+def initialize_knowledge_base():
+    """Initialize knowledge base with content loading if embeddings are available."""
+    try:
+        # Try to import sentence transformers to check if embeddings are available
+        import sentence_transformers
+        embeddings_available = True
+        print("✅ Sentence transformers available - knowledge base will include semantic search")
+    except ImportError:
+        try:
+            # Fallback: check if chonkie with sentence transformers is available
+            import chonkie
+            embeddings_available = True
+            print("✅ Chonkie embeddings available - knowledge base will include semantic search")
+        except ImportError:
+            embeddings_available = False
+            print("⚠️  No embeddings library available - knowledge base will work without semantic search")
+
+    if embeddings_available:
+        try:
+            # Import shared knowledge and load content
+            from config.knowledge import knowledge
+            from agno.knowledge.reader.website_reader import WebsiteReader
+
+            print("📚 Loading knowledge base content...")
+            knowledge.add_content(
+                url="https://docs.agno.com/introduction",
+                reader=WebsiteReader(max_links=10),
+            )
+            print("✅ Knowledge base content loaded successfully")
+        except Exception as e:
+            print(f"⚠️  Failed to load knowledge content: {e}")
+            print("   Continuing without knowledge content...")
+    else:
+        print("📚 Skipping knowledge content loading (no embeddings available)")
+
+# Initialize knowledge base conditionally
+initialize_knowledge_base()
+
+def collect_all_agents():
+    """Collect all agent objects from imported modules."""
+    import sys
+    agents = []
+
+    # Add explicitly imported agents
+    explicit_agents = [
+        content_agent, engagement_agent, image_agent, video_agent, audio_agent,
+        publisher_scheduler_agent, operations_manager_agent, research_agent,
+        analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent
+    ]
+    agents.extend(explicit_agents)
+
+    # Collect agents from wildcard imports
+    modules_to_check = ['agents', 'agents_exemple']
+    for module_name in modules_to_check:
+        if module_name in sys.modules:
+            module = sys.modules[module_name]
+            for attr_name in dir(module):
+                if not attr_name.startswith('_'):
+                    attr = getattr(module, attr_name)
+                    # Check if it's an Agent instance (basic check)
+                    if hasattr(attr, 'name') and hasattr(attr, 'role') and hasattr(attr, 'model'):
+                        if attr not in agents:  # Avoid duplicates
+                            agents.append(attr)
+
+    return agents
+
+def collect_all_teams():
+    """Collect all team objects from imported modules."""
+    import sys
+    teams = []
+
+    # Add explicitly imported teams
+    explicit_teams = [operations_team, platform_team, strategy_team]
+    teams.extend(explicit_teams)
+
+    # Collect teams from wildcard imports
+    if 'teams' in sys.modules:
+        teams_module = sys.modules['teams']
+        for attr_name in dir(teams_module):
+            if not attr_name.startswith('_'):
+                attr = getattr(teams_module, attr_name)
+                # Check if it's a Team instance (basic check)
+                if hasattr(attr, 'name') and hasattr(attr, 'members') and hasattr(attr, 'model'):
+                    if attr not in teams:  # Avoid duplicates
+                        teams.append(attr)
+
+    return teams
+
+def collect_all_workflows():
+    """Collect all workflow objects from imported modules."""
+    import sys
+    workflows = []
+
+    # Add explicitly imported workflows
+    explicit_workflows = [operations_workflow, daily_operations_workflow, crisis_workflow, campaign_workflow]
+    workflows.extend(explicit_workflows)
+
+    # Collect workflows from wildcard imports
+    if 'workflow' in sys.modules:
+        workflow_module = sys.modules['workflow']
+        for attr_name in dir(workflow_module):
+            if not attr_name.startswith('_'):
+                attr = getattr(workflow_module, attr_name)
+                # Check if it's a Workflow instance (basic check)
+                if hasattr(attr, 'name') and hasattr(attr, 'description'):
+                    if attr not in workflows:  # Avoid duplicates
+                        workflows.append(attr)
+
+    return workflows
+
+# Collect all available agents, teams, and workflows
+all_agents = collect_all_agents()
+all_teams = collect_all_teams()
+all_workflows = collect_all_workflows()
+
+print(f"📊 Registered {len(all_agents)} agents, {len(all_teams)} teams, {len(all_workflows)} workflows")
+
 # Main AgentOS application
 agent_os = AgentOS(
     os_id="etugrand-operations-manager",
     description="ETUGRAND Company Operations Manager - AI-powered business operations platform",
-    agents=[
-        content_agent,
-        engagement_agent,
-        image_agent,
-        video_agent,
-        audio_agent,
-        publisher_scheduler_agent,
-        operations_manager_agent,
-        research_agent,
-        analytics_agent,
-        twitter_agent,
-        linkedin_agent,
-        youtube_platform_agent,  # Platform-specific YouTube agent
-        reddit_agent,
-        # Include existing agents from agents/ directory
-        # Note: These will be imported via the wildcard imports above
-    ],
-    teams=[
-        operations_team,
-        platform_team,
-        strategy_team,
-        # Include existing teams from teams/ directory
-        # Note: These will be imported via the wildcard imports above
-    ],
-    workflows=[
-        operations_workflow,
-        daily_operations_workflow,
-        crisis_workflow,
-        campaign_workflow,
-        # Include existing workflows from workflow/ directory
-        # Note: These will be imported via the wildcard imports above
-    ],
+    agents=all_agents,
+    teams=all_teams,
+    workflows=all_workflows,
 )
 
 # Get the FastAPI app

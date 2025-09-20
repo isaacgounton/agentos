@@ -21,7 +21,7 @@ agent = Agent(
     model=OpenAIChat(id="gpt-4o"),
     tools=[
         ExaTools(start_published_date=calculate_start_date(30), type="keyword"),
-        FirecrawlTools(scrape=True),
+        FirecrawlTools(enable_scrape=True),
     ],
     description=dedent("""\
         You are an expert media trend analyst specializing in:
@@ -80,7 +80,8 @@ Keywords: ai agents
 Sources: verge.com ,linkedin.com, x.com
 """
 
-agent.print_response(analysis_prompt, stream=True)
+# Example usage (commented out to prevent auto-execution):
+# agent.print_response(analysis_prompt, stream=True)
 
 # Alternative prompt example
 crypto_prompt = """\

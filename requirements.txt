@@ -1,9 +1,7 @@
-# Social Media AgentOS - Core Requirements
-
 # Core Agno framework
 agno
 
-# OpenAI integration (for embeddings)
+# OpenAI integration (for embeddings and models)
 openai
 
 # Web framework for AgentOS
@@ -15,19 +13,32 @@ sqlalchemy
 pgvector
 psycopg2-binary
 psycopg
+chonkie
 
 # MCP (Model Context Protocol)
 mcp
 
 # Search tools
 ddgs
+exa-py
+googlesearch-python
 
 # Additional utilities
 python-dotenv
+firecrawl-py
+youtube-transcript-api
+pycountry
+anthropic
+slack-sdk
+pypdf
+yfinance
+google-genai
+newspaper4k
+lxml_html_clean
+chonkie
+# sentence-transformers  # Optional: for semantic embeddings in knowledge base
 
-# Optional/Advanced (uncomment when needed):
-# lancedb
-# tantivy  # Required for LanceDB full-text search
-# duckduckgo-search
-# ddgs  # DuckDuckGo search library
-# exa-py
+# Required for various agent tools
+pydantic
+rich
+starlette

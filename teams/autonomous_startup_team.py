@@ -15,18 +15,12 @@ from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.exa import ExaTools
 from agno.tools.slack import SlackTools
 from agno.tools.yfinance import YFinanceTools
-from agno.vectordb.pgvector.pgvector import PgVector
 
-knowledge = Knowledge(
-    vector_db=PgVector(
-        table_name="autonomous_startup_team",
-        db_url="postgresql+psycopg://ai:ai@localhost:5532/ai",
-    ),
-)
+# Import shared knowledge from config
+from config.knowledge import knowledge
 
-knowledge.add_content(
-    path="cookbook/teams/coordinate/data", reader=PDFReader(chunk=True)
-)
+# Note: Content loading is handled by AgentOS startup, not at module import time
+# knowledge.add_content(...) - moved to AgentOS initialization
 
 
 support_channel = "testing"
@@ -219,27 +213,5 @@ autonomous_startup_team = Team(
     show_members_responses=True,
 )
 
-autonomous_startup_team.print_response(
-    input="I want to start a startup that sells AI agents to businesses. What is the best way to do this?",
-    stream=True,
-    stream_intermediate_steps=True,
-)
-
-
-autonomous_startup_team.print_response(
-    input="Give me good marketing campaign for buzzai?",
-    stream=True,
-    stream_intermediate_steps=True,
-)
-
-autonomous_startup_team.print_response(
-    input="What is my company and what are the monetization strategies?",
-    stream=True,
-    stream_intermediate_steps=True,
-)
-
-# autonomous_startup_team.print_response(
-#     input="Read the partnership details and give me details about the partnership with InnovateAI",
-#     stream=True,
-#     stream_intermediate_steps=True,
-# )
+# Team definition only - execution handled by AgentOS
+# No standalone execution allowed

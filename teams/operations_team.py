@@ -6,12 +6,12 @@ from agno.models.openrouter import OpenRouter
 from config.database import db
 
 # Import agents
-from .content_agent import content_agent
-from .engagement_agent import engagement_agent
-from .image_agent import image_agent
-from .video_agent import video_agent
-from .audio_agent import audio_agent
-from .publisher_scheduler_agent import publisher_scheduler_agent
+from agents.content_agent import content_agent
+from agents.engagement_agent import engagement_agent
+from agents.image_agent import image_agent
+from agents.video_agent import video_agent
+from agents.audio_agent import audio_agent
+from agents.publisher_scheduler_agent import publisher_scheduler_agent
 
 operations_team = Team(
     id="operations-team",

@@ -96,6 +96,7 @@ social_media_agent = Agent(
     markdown=True,
 )
 
-social_media_agent.print_response(
-    "Analyze the sentiment of Agno and AgnoAGI on X (Twitter) for past 10 tweets"
-)
+# Example usage (commented out to prevent auto-execution):
+# social_media_agent.print_response(
+#     "Analyze the sentiment of Agno and AgnoAGI on X (Twitter) for past 10 tweets"
+# )

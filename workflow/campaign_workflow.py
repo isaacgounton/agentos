@@ -6,10 +6,10 @@ from agno.workflow.step import Step
 from config.database import db
 
 # Import agents
-from ..agents.operations_manager_agent import operations_manager_agent
-from ..agents.content_agent import content_agent
-from ..agents.publisher_scheduler_agent import publisher_scheduler_agent
-from ..agents.analytics_agent import analytics_agent
+from agents.operations_manager_agent import operations_manager_agent
+from agents.content_agent import content_agent
+from agents.publisher_scheduler_agent import publisher_scheduler_agent
+from agents.analytics_agent import analytics_agent
 
 campaign_workflow = Workflow(
     name="Business Campaign Workflow",

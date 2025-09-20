@@ -1,27 +1,16 @@
 from agno.agent import Agent
-from agno.knowledge.knowledge import Knowledge
 from agno.knowledge.reader.website_reader import WebsiteReader
 from agno.models.openai import OpenAIChat
 from agno.team.team import Team
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.exa import ExaTools
 from agno.tools.slack import SlackTools
-from agno.vectordb.pgvector.pgvector import PgVector
 
-knowledge = Knowledge(
-    vector_db=PgVector(
-        table_name="website_documents",
-        db_url="postgresql+psycopg://ai:ai@localhost:5532/ai",
-    ),
-)
+# Import shared knowledge from config
+from config.knowledge import knowledge
 
-knowledge.add_content(
-    url="https://docs.agno.com/introduction",
-    reader=WebsiteReader(
-        # Number of links to follow from the seed URLs
-        max_links=10,
-    ),
-)
+# Note: Content loading is handled by AgentOS startup, not at module import time
+# knowledge.add_content(...) - moved to AgentOS initialization
 
 
 support_channel = "testing"
@@ -103,20 +92,5 @@ customer_support_team = Team(
     ],
 )
 
-# Add in the query and the agent redirects it to the appropriate agent
-customer_support_team.print_response(
-    "Hi Team, I want to build an educational platform where the models are have access to tons of study materials, How can Agno platform help me build this?",
-    stream=True,
-)
-# customer_support_team.print_response(
-#     "Support json schemas in Gemini client in addition to pydantic base model",
-#     stream=True,
-# )
-# customer_support_team.print_response(
-#     "Can you please update me on the above feature",
-#     stream=True,
-# )
-# customer_support_team.print_response(
-#     "[Bug] Async tools in team of agents not awaited properly, causing runtime errors ",
-#     stream=True,
-# )
+# Team definition only - execution handled by AgentOS
+# No standalone execution allowed

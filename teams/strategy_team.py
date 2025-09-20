@@ -6,9 +6,9 @@ from agno.models.openrouter import OpenRouter
 from config.database import db
 
 # Import agents
-from ..agents.operations_manager_agent import operations_manager_agent
-from ..agents.analytics_agent import analytics_agent
-from ..agents.research_agent import research_agent
+from agents.operations_manager_agent import operations_manager_agent
+from agents.analytics_agent import analytics_agent
+from agents.research_agent import research_agent
 
 strategy_team = Team(
     name="Strategy Team",

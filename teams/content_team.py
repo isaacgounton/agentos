@@ -27,5 +27,5 @@ content_team = Team(
     show_members_responses=True,
 )
 
-# Run the team with a task
-content_team.print_response("Create a short article about quantum computing")
+# Team definition only - execution handled by AgentOS
+# No standalone execution allowed

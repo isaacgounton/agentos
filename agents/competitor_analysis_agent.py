@@ -33,9 +33,9 @@ competitor_analysis_agent = Agent(
     model=OpenAIChat(id="gpt-4.1"),
     tools=[
         FirecrawlTools(
-            search=True,
-            crawl=True,
-            mapping=True,
+            enable_search=True,
+            enable_crawl=True,
+            enable_mapping=True,
             formats=["markdown", "links", "html"],
             search_params={
                 "limit": 2,
@@ -191,13 +191,4 @@ competitor_analysis_agent = Agent(
     markdown=True,
     add_datetime_to_context=True,
     stream_intermediate_steps=True,
-)
-
-competitor_analysis_agent.print_response(
-    """\
-    Analyze the competitive landscape for Stripe in the payments industry.
-    Focus on their products, pricing models, and market positioning.\
-    """,
-    stream=True,
-    show_full_reasoning=True,
 )

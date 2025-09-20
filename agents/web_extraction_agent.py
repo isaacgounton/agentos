@@ -5,7 +5,6 @@ from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.tools.firecrawl import FirecrawlTools
 from pydantic import BaseModel, Field
-from rich.pretty import pprint
 
 
 class ContentSection(BaseModel):
@@ -40,7 +39,7 @@ class PageInformation(BaseModel):
 
 agent = Agent(
     model=OpenAIChat(id="gpt-4.1"),
-    tools=[FirecrawlTools(scrape=True, crawl=True)],
+    tools=[FirecrawlTools(enable_scrape=True, enable_crawl=True)],
     instructions=dedent("""
         You are an expert web researcher and content extractor. Extract comprehensive, structured information
         from the provided webpage. Focus on:
@@ -56,5 +55,6 @@ agent = Agent(
     output_schema=PageInformation,
 )
 
-result = agent.run("Extract all information from https://www.agno.com")
-pprint(result.content)
+# Example usage (commented out to prevent auto-execution):
+# result = agent.run("Extract all information from https://www.agno.com")
+# pprint(result.content)
