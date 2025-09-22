@@ -196,7 +196,7 @@ if __name__ == "__main__":
 
     try:
         print("🚀 Starting ETUGRAND Company Operations Manager...")
-        agent_os.serve(app="etugrand_agentos:app", port=7777)
+        agent_os.serve(app="my_agentos:app", port=7777)
     except KeyboardInterrupt:
         print("\n🛑 ETUGRAND Operations Manager stopped by user (Ctrl+C)")
         os._exit(0)

@@ -34,4 +34,4 @@ HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:7777/ || exit 1
 
 # Start the application
-CMD ["python", "my_agentos.py"]
+CMD ["uvicorn", "my_agentos:app", "--host", "0.0.0.0", "--port", "7777"]
