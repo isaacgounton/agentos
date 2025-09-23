@@ -46,6 +46,7 @@ analysis and research. Use the insights to refine your concept and business plan
 """
 
 import asyncio
+import os
 from typing import Any
 
 from agno.agent import Agent
