@@ -383,8 +383,11 @@ class AnalyticsTools:
         except Exception as e:
             return json.dumps({"error": f"A/B test analysis failed: {str(e)}"})
 
-    def _calculate_trend(self, series: pd.Series) -> float:
+    def _calculate_trend(self, series) -> float:
         """Calculate trend coefficient for a time series."""
+        if not ANALYTICS_AVAILABLE:
+            return 0.0
+
         if len(series) < 2:
             return 0.0
 

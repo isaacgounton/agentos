@@ -3,6 +3,8 @@ from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MCPTools
 from agno.tools.duckduckgo import DuckDuckGoTools
+from typing import Optional, Dict, Any
+import json
 
 # Import shared config
 from config.database import db
@@ -14,8 +16,6 @@ try:
     import aiofiles
     import mimetypes
     from pathlib import Path
-    from typing import Optional, Dict, Any
-    import json
     FILE_TOOLS_AVAILABLE = True
 except ImportError:
     FILE_TOOLS_AVAILABLE = False

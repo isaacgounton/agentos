@@ -36,12 +36,12 @@ export OPENROUTER_MODEL_NAME="anthropic/claude-3-haiku"
 export OPENAI_API_KEY="your-openai-api-key"  # For embeddings
 export DATABASE_URL="postgresql://..."       # For persistent storage
 
-# Twitter API (for Twitter agent functionality)
-export TWITTER_API_KEY="your-twitter-api-key"
-export TWITTER_API_SECRET="your-twitter-api-secret"
-export TWITTER_ACCESS_TOKEN="your-twitter-access-token"
-export TWITTER_ACCESS_TOKEN_SECRET="your-twitter-access-token-secret"
-export TWITTER_BEARER_TOKEN="your-twitter-bearer-token"
+# X/Twitter API (for Twitter agent functionality)
+export X_CONSUMER_KEY="your-twitter-api-key"
+export X_CONSUMER_SECRET="your-twitter-api-secret"
+export X_ACCESS_TOKEN="your-twitter-access-token"
+export X_ACCESS_TOKEN_SECRET="your-twitter-access-token-secret"
+export X_BEARER_TOKEN="your-twitter-bearer-token"
 ```
 
 ## Architecture
