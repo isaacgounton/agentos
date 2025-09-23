@@ -35,7 +35,7 @@ analytics_agent = Agent(
     name="Analytics Specialist",
     role="Analyze performance and generate insights",
     model=OpenRouter(
-        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1"),
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[

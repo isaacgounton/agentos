@@ -1,8 +1,9 @@
+import os
 from textwrap import dedent
 from typing import Dict, List, Optional
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.tools.firecrawl import FirecrawlTools
 from pydantic import BaseModel, Field
 
@@ -38,7 +39,7 @@ class PageInformation(BaseModel):
 
 
 agent = Agent(
-    model=OpenAIChat(id="gpt-4.1"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     tools=[FirecrawlTools(enable_scrape=True, enable_crawl=True)],
     instructions=dedent("""
         You are an expert web researcher and content extractor. Extract comprehensive, structured information

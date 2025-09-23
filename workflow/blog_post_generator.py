@@ -18,12 +18,13 @@ Key capabilities:
 
 import asyncio
 import json
+import os
 from textwrap import dedent
 from typing import Dict, Optional
 
 from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
-from agno.models.openai import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.tools.googlesearch import GoogleSearchTools
 from agno.utils.log import logger
 from agno.utils.pprint import pprint_run_response
@@ -67,7 +68,7 @@ class ScrapedArticle(BaseModel):
 # --- Agents ---
 research_agent = Agent(
     name="Blog Research Agent",
-    model=OpenAIChat(id="gpt-4o-mini"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     tools=[GoogleSearchTools()],
     description=dedent("""\
     You are BlogResearch-X, an elite research assistant specializing in discovering
@@ -98,7 +99,7 @@ research_agent = Agent(
 
 content_scraper_agent = Agent(
     name="Content Scraper Agent",
-    model=OpenAIChat(id="gpt-4o-mini"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     tools=[Newspaper4kTools()] if NEWSPAPER_AVAILABLE else [],
     description=dedent("""\
     You are ContentBot-X, a specialist in extracting and processing digital content
@@ -130,7 +131,7 @@ content_scraper_agent = Agent(
 
 blog_writer_agent = Agent(
     name="Blog Writer Agent",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     description=dedent("""\
     You are BlogMaster-X, an elite content creator combining journalistic excellence
     with digital marketing expertise. Your strengths include:

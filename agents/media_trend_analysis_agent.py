@@ -2,11 +2,12 @@
 pip install openai exa-py agno firecrawl
 """
 
+import os
 from datetime import datetime, timedelta
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.tools.exa import ExaTools
 from agno.tools.firecrawl import FirecrawlTools
 
@@ -19,7 +20,7 @@ def calculate_start_date(days: int) -> str:
 
 agent = Agent(
     name="Media Trend Analysis Agent",
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     tools=[
         ExaTools(start_published_date=calculate_start_date(30), type="keyword"),
         FirecrawlTools(enable_scrape=True),

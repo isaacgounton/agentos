@@ -42,7 +42,7 @@ twitter_agent = Agent(
             wait_on_rate_limit=True,
         ),
         MCPTools(
-            transport="streamable-http",
+            transport="sse",
             url=os.getenv("POSTIZ_MCP_URL")
         )
     ],

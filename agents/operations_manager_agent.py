@@ -2,30 +2,22 @@ import os
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.mcp import MCPTools
 
 # Import shared config
 from config.database import db
 from config.knowledge import knowledge
 
-# Multi-server MCP configuration disabled due to missing external MCP servers
-multi_mcp = None
 
 operations_manager_agent = Agent(
     name="ETUGRAND Operations Manager",
     role="Coordinate and manage all ETUGRAND company operations",
     model=OpenRouter(
-        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1"),
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[
-        MCPTools(
-            transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
-            include_tools=[]
-        ),
         DuckDuckGoTools()
-    ] + ([multi_mcp] if multi_mcp else []),
+    ],
     db=db,
     knowledge=knowledge,
     enable_user_memories=True,

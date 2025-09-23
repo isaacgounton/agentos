@@ -25,7 +25,7 @@ Dependencies: `pip install openai ddgs newspaper4k lxml_html_clean agno`
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.tools.duckduckgo import DuckDuckGoTools
 
 # Optional Newspaper4k tools - skip if not installed
@@ -38,7 +38,7 @@ except ImportError:
 
 # Initialize the research agent with advanced journalistic capabilities
 research_agent = Agent(
-    model=OpenAIChat(id="gpt-4o"),
+    model=OpenRouter("deepseek/deepseek-r1"),
     tools=[DuckDuckGoTools()] + ([Newspaper4kTools()] if NEWSPAPER_AVAILABLE else []),
     description=dedent("""\
         You are an elite investigative journalist with decades of experience at the New York Times.

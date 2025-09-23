@@ -158,7 +158,7 @@ s3_agent = Agent(
     name="S3 Manager",
     role="Manage S3 file uploads and downloads",
     model=OpenRouter(
-        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1"),
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[
@@ -166,7 +166,7 @@ s3_agent = Agent(
         S3LocalTools(),
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "upload_file_api_v1_s3_upload_post",
                 "async_workflow_guide"

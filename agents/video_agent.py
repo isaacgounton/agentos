@@ -11,13 +11,13 @@ video_agent = Agent(
     name="Video Specialist",
     role="Generate and process videos for social media content",
     model=OpenRouter(
-        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1"),
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "generate_video_api_v1_videos_generate_post",
                 "generate_video_from_image_api_v1_videos_from_image_post",

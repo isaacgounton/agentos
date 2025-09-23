@@ -7,7 +7,7 @@
 from pathlib import Path
 
 from agno.agent import Agent
-from agno.models.openai.chat import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.team.team import Team
 from agno.tools.duckduckgo import DuckDuckGoTools
 
@@ -57,7 +57,7 @@ writer = Agent(
 
 editor = Team(
     name="Editor",
-    model=OpenAIChat("gpt-4o"),
+    model=OpenRouter("deepseek/deepseek-r1"),
     members=[searcher, writer],
     description="You are a senior NYT editor. Given a topic, your goal is to write a NYT worthy article.",
     instructions=[

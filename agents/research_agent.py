@@ -40,7 +40,7 @@ research_agent = Agent(
     name="Research Agent",
     role="Complete research analyst combining market intelligence and academic research",
     model=OpenRouter(
-        id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
+        id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1"),
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[

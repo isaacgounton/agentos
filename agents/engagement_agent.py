@@ -2,7 +2,6 @@ import os
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.mcp import MCPTools
 
 # Import shared config
 from config.database import db
@@ -17,19 +16,6 @@ engagement_agent = Agent(
     ),
     tools=[
         DuckDuckGoTools(),
-        MCPTools(
-            transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
-            include_tools=[
-                "analyze_image_vision_api_pollinations_vision_analyze_post",
-                "create_transcriptions_job_api_v1_audio_transcriptions_post",
-                "transcribe_audio_api_pollinations_audio_transcribe_post",
-                "research_topic_api_v1_ai_news_research_post",
-                "extract_metadata_api_v1_media_metadata_post",
-                "check_job_status",
-                "async_workflow_guide"
-            ]
-        ),
     ],
     db=db,
     knowledge=knowledge,
@@ -46,14 +32,6 @@ engagement_agent = Agent(
     3. Provide recommendations for content optimization
     4. Monitor competitor performance
     5. Generate engagement reports and insights
-    6. Use OUINHI Pollinations MCP for:
-       - Analyzing images with analyze_image_vision_api_pollinations_vision_analyze_post
-       - Creating transcription jobs with create_transcriptions_job_api_v1_audio_transcriptions_post
-       - Transcribing audio with transcribe_audio_api_pollinations_audio_transcribe_post
-       - Researching topics with research_topic_api_v1_ai_news_research_post
-       - Extracting metadata with extract_metadata_api_v1_media_metadata_post
-       - Checking job status with check_job_status
-       - Using async workflow guide with async_workflow_guide
-    7. Use DuckDuckGo for researching trends and competitor analysis
+    6. Use DuckDuckGo for researching trends and competitor analysis
     """,
 )

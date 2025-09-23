@@ -12,7 +12,6 @@ services:
       - OPENROUTER_MODEL_NAME=${OPENROUTER_MODEL_NAME:-anthropic/claude-3-haiku}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DATABASE_URL=${DATABASE_URL}
-      - POSTIZ_MCP_URL=${POSTIZ_MCP_URL:-https://mcp.etugrand.com/mcp}
       - X_CONSUMER_KEY=${X_CONSUMER_KEY}
       - X_CONSUMER_SECRET=${X_CONSUMER_SECRET}
       - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
@@ -29,7 +28,7 @@ services:
       - ./downloads:/app/downloads
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:7777/"]
+      test: [ "CMD", "curl", "-f", "http://localhost:7777/" ]
       interval: 30s
       timeout: 10s
       retries: 3

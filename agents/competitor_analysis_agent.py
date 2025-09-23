@@ -22,16 +22,17 @@ Example queries to try:
 Dependencies: `pip install openai firecrawl-py agno`
 """
 
+import os
 from textwrap import dedent
 
 from agno.agent import Agent
-from agno.models.openai import OpenAIChat
+from agno.models.openrouter import OpenRouter
 from agno.tools.firecrawl import FirecrawlTools
 from agno.tools.reasoning import ReasoningTools
 
 competitor_analysis_agent = Agent(
     name="Competitor Analysis Agent",
-    model=OpenAIChat(id="gpt-4.1"),
+    model=OpenRouter(id=os.getenv("OPENROUTER_MODEL_NAME", "deepseek/deepseek-r1")),
     tools=[
         FirecrawlTools(
             enable_search=True,
