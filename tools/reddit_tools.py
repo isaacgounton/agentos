@@ -36,4 +36,5 @@ agent = Agent(
     tools=[RedditTools()],
 )
 
-agent.print_response("What are the top 5 posts on r/SAAS this week ?", stream=True)
+# Example usage (commented out to prevent auto-execution):
+# agent.print_response("What are the top 5 posts on r/SAAS this week ?", stream=True)

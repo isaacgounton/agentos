@@ -11,7 +11,7 @@ from agents.content_agent import content_agent
 from agents.image_agent import image_agent
 from agents.video_agent import video_agent
 from agents.audio_agent import audio_agent
-from agents.publisher_scheduler_agent import publisher_scheduler_agent
+from agents.postiz_agent import postiz_agent as publisher_scheduler_agent
 
 operations_workflow = Workflow(
     id="operations-workflow",
