@@ -177,6 +177,7 @@ agent_os = AgentOS(
     agents=all_agents,
     teams=all_teams,
     workflows=all_workflows,
+    enable_mcp=True,  # Enable MCP server at /mcp endpoint
 )
 
 # Get the FastAPI app

@@ -37,6 +37,11 @@ twitter_agent = Agent(
     ),
     tools=[
         XTools(
+            api_key=os.getenv("TWITTER_API_KEY"),
+            api_secret=os.getenv("TWITTER_API_SECRET"),
+            access_token=os.getenv("TWITTER_ACCESS_TOKEN"),
+            access_token_secret=os.getenv("TWITTER_ACCESS_TOKEN_SECRET"),
+            bearer_token=os.getenv("TWITTER_BEARER_TOKEN"),
             include_post_metrics=True,
             wait_on_rate_limit=True,
         )

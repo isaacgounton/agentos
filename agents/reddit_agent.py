@@ -1,6 +1,7 @@
 import os
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
+from tools.reddit_tools import RedditTools
 
 # Import shared config
 from config.database import db
@@ -14,6 +15,7 @@ reddit_agent = Agent(
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[
+        RedditTools(),
     ],
     db=db,
     knowledge=knowledge,
