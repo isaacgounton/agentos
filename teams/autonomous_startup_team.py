@@ -14,7 +14,14 @@ from agno.team.team import Team
 from agno.tools.duckduckgo import DuckDuckGoTools
 from agno.tools.exa import ExaTools
 from agno.tools.slack import SlackTools
-from agno.tools.yfinance import YFinanceTools
+
+# Optional YFinance tools - skip if not installed
+try:
+    from agno.tools.yfinance import YFinanceTools
+    YFINANCE_AVAILABLE = True
+except ImportError:
+    YFINANCE_AVAILABLE = False
+    print("⚠️  YFinance tools not available - install with: pip install yfinance")
 
 # Import shared knowledge from config
 from config.knowledge import knowledge
@@ -127,7 +134,7 @@ financial_analyst_agent = Agent(
     role="Financial Analyst",
     model=OpenAIChat("gpt-4o"),
     knowledge=knowledge,
-    tools=[YFinanceTools()],
+    tools=[YFinanceTools()] if YFINANCE_AVAILABLE else [],
     instructions=[
         "You are the Financial Analyst of a startup, responsible for financial planning and analysis.",
         "Key Responsibilities:",

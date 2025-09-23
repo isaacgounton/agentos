@@ -10,7 +10,14 @@ from agno.agent import Agent
 from agno.models.openai.chat import OpenAIChat
 from agno.team.team import Team
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.newspaper4k import Newspaper4kTools
+
+# Optional Newspaper4k tools - skip if not installed
+try:
+    from agno.tools.newspaper4k import Newspaper4kTools
+    NEWSPAPER_AVAILABLE = True
+except ImportError:
+    NEWSPAPER_AVAILABLE = False
+    print("⚠️  Newspaper4k tools not available - install with: pip install newspaper4k lxml_html_clean")
 
 urls_file = Path(__file__).parent.joinpath("tmp", "urls__{session_id}.md")
 urls_file.parent.mkdir(parents=True, exist_ok=True)
@@ -44,7 +51,7 @@ writer = Agent(
         "Never make up facts or plagiarize. Always provide proper attribution.",
         "Remember: you are writing for the New York Times, so the quality of the article is important.",
     ],
-    tools=[Newspaper4kTools()],
+    tools=[Newspaper4kTools()] if NEWSPAPER_AVAILABLE else [],
     add_datetime_to_context=True,
 )
 

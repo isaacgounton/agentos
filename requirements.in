@@ -41,7 +41,8 @@ aiofiles
 python-docx
 unstructured
 markdown
-# sentence-transformers  # Optional: for semantic embeddings in knowledge base
+sentence-transformers
+fastmcp
 
 # Required for various agent tools
 pydantic

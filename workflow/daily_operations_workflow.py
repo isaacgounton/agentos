@@ -1,4 +1,3 @@
-import os
 from agno.workflow.workflow import Workflow
 from agno.workflow.step import Step
 
@@ -9,7 +8,7 @@ from config.database import db
 from agents.research_agent import research_agent
 from agents.content_agent import content_agent
 from agents.operations_manager_agent import operations_manager_agent
-from agents.publisher_scheduler_agent import publisher_scheduler_agent
+from agents.postiz_agent import postiz_agent as publisher_scheduler_agent
 from agents.analytics_agent import analytics_agent
 
 daily_operations_workflow = Workflow(

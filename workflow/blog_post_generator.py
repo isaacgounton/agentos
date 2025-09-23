@@ -25,11 +25,18 @@ from agno.agent import Agent
 from agno.db.sqlite import SqliteDb
 from agno.models.openai import OpenAIChat
 from agno.tools.googlesearch import GoogleSearchTools
-from agno.tools.newspaper4k import Newspaper4kTools
 from agno.utils.log import logger
 from agno.utils.pprint import pprint_run_response
 from agno.workflow.workflow import Workflow
 from pydantic import BaseModel, Field
+
+# Optional Newspaper4k tools - skip if not installed
+try:
+    from agno.tools.newspaper4k import Newspaper4kTools
+    NEWSPAPER_AVAILABLE = True
+except ImportError:
+    NEWSPAPER_AVAILABLE = False
+    print("⚠️  Newspaper4k tools not available - install with: pip install newspaper4k lxml_html_clean")
 
 
 # --- Response Models ---
@@ -92,7 +99,7 @@ research_agent = Agent(
 content_scraper_agent = Agent(
     name="Content Scraper Agent",
     model=OpenAIChat(id="gpt-4o-mini"),
-    tools=[Newspaper4kTools()],
+    tools=[Newspaper4kTools()] if NEWSPAPER_AVAILABLE else [],
     description=dedent("""\
     You are ContentBot-X, a specialist in extracting and processing digital content
     for blog creation. Your expertise includes:

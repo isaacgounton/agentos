@@ -27,12 +27,19 @@ from textwrap import dedent
 from agno.agent import Agent
 from agno.models.openai import OpenAIChat
 from agno.tools.duckduckgo import DuckDuckGoTools
-from agno.tools.newspaper4k import Newspaper4kTools
+
+# Optional Newspaper4k tools - skip if not installed
+try:
+    from agno.tools.newspaper4k import Newspaper4kTools
+    NEWSPAPER_AVAILABLE = True
+except ImportError:
+    NEWSPAPER_AVAILABLE = False
+    print("⚠️  Newspaper4k tools not available - install with: pip install newspaper4k lxml_html_clean")
 
 # Initialize the research agent with advanced journalistic capabilities
 research_agent = Agent(
     model=OpenAIChat(id="gpt-4o"),
-    tools=[DuckDuckGoTools(), Newspaper4kTools()],
+    tools=[DuckDuckGoTools()] + ([Newspaper4kTools()] if NEWSPAPER_AVAILABLE else []),
     description=dedent("""\
         You are an elite investigative journalist with decades of experience at the New York Times.
         Your expertise encompasses: 📰
