@@ -32,7 +32,8 @@ video_agent = Agent(
                 "extract_metadata_api_v1_media_metadata_post",
                 "download_media_api_v1_media_download_post",
                 "check_job_status",
-                "async_workflow_guide"
+                "async_workflow_guide",
+                "upload_file_api_v1_s3_upload_post"
             ]
         ),
     ],
@@ -70,6 +71,8 @@ video_agent = Agent(
        - Downloading media with download_media_api_v1_media_download_post
        - Checking job status with check_job_status
        - Using async workflow guide with async_workflow_guide
-    7. Focus ONLY on video generation and processing - do not handle images, text, or audio creation
+       - Uploading video files to S3 with upload_file_api_v1_s3_upload_post
+    7. Upload video files to S3 for storage and sharing using upload_file_api_v1_s3_upload_post
+    8. Focus ONLY on video generation and processing - do not handle images, text, or audio creation
     """,
 )

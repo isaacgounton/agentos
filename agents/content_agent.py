@@ -27,7 +27,8 @@ content_agent = Agent(
                 "extract_metadata_api_v1_media_metadata_post",
                 "convert_document_to_markdown_api_v1_documents_to_markdown_post",
                 "check_job_status",
-                "async_workflow_guide"
+                "async_workflow_guide",
+                "upload_file_api_v1_s3_upload_post"
             ]
         ),
     ],
@@ -56,7 +57,9 @@ content_agent = Agent(
        - Converting documents to markdown with convert_document_to_markdown_api_v1_documents_to_markdown_post
        - Checking job status with check_job_status
        - Using async workflow guide with async_workflow_guide
-    7. Coordinate with specialized media agents (Image, Video, Audio) for multimedia content
-    8. Focus ONLY on text content creation - delegate media generation to specialized agents
+       - Uploading files to S3 with upload_file_api_v1_s3_upload_post
+    7. Upload content files to S3 for storage and sharing using upload_file_api_v1_s3_upload_post
+    8. Coordinate with specialized media agents (Image, Video, Audio) for multimedia content
+    9. Focus ONLY on text content creation - delegate media generation to specialized agents
     """,
 )

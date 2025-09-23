@@ -27,6 +27,7 @@ from agents.twitter_agent import twitter_agent
 from agents.linkedin_agent import linkedin_agent
 from agents.youtube_agent import youtube_agent as youtube_platform_agent
 from agents.reddit_agent import reddit_agent
+from agents.s3_agent import s3_agent
 
 # Import existing agents from agents/ directory
 from agents.competitor_analysis_agent import *
@@ -100,7 +101,7 @@ def collect_all_agents():
     explicit_agents = [
         content_agent, engagement_agent, image_agent, video_agent, audio_agent,
         publisher_scheduler_agent, operations_manager_agent, research_agent,
-        analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent
+        analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent, s3_agent
     ]
     agents.extend(explicit_agents)
 
@@ -114,7 +115,7 @@ def collect_all_agents():
                 attr not in agents and
                 attr not in [content_agent, engagement_agent, image_agent,
                 video_agent, audio_agent, publisher_scheduler_agent, operations_manager_agent,
-                research_agent, analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent]):
+                research_agent, analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent, s3_agent]):
                 agents.append(attr)
 
     return agents

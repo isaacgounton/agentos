@@ -25,7 +25,8 @@ audio_agent = Agent(
                 "get_models_formatted_api_v1_audio_models_formatted_get",
                 "get_supported_providers_api_v1_audio_providers_get",
                 "check_job_status",
-                "async_workflow_guide"
+                "async_workflow_guide",
+                "upload_file_api_v1_s3_upload_post"
             ]
         ),
     ],
@@ -56,6 +57,8 @@ audio_agent = Agent(
        - Getting supported providers with get_supported_providers_api_v1_audio_providers_get
        - Checking job status with check_job_status
        - Using async workflow guide with async_workflow_guide
-    7. Focus ONLY on audio generation and processing - do not handle images, videos, or text creation
+       - Uploading audio files to S3 with upload_file_api_v1_s3_upload_post
+    7. Upload audio files to S3 for storage and sharing using upload_file_api_v1_s3_upload_post
+    8. Focus ONLY on audio generation and processing - do not handle images, videos, or text creation
     """,
 )

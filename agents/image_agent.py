@@ -27,7 +27,8 @@ image_agent = Agent(
                 "list_image_models_api_pollinations_models_image_get",
                 "search_stock_images_api_v1_ai_image_search_stock_images_post",
                 "check_job_status",
-                "async_workflow_guide"
+                "async_workflow_guide",
+                "upload_file_api_v1_s3_upload_post"
             ]
         ),
     ],
@@ -60,6 +61,8 @@ image_agent = Agent(
        - Searching stock images with search_stock_images_api_v1_ai_image_search_stock_images_post
        - Checking job status with check_job_status
        - Using async workflow guide with async_workflow_guide
-    7. Focus ONLY on image generation and processing - do not handle text, video, or audio creation
+       - Uploading image files to S3 with upload_file_api_v1_s3_upload_post
+    7. Upload image files to S3 for storage and sharing using upload_file_api_v1_s3_upload_post
+    8. Focus ONLY on image generation and processing - do not handle text, video, or audio creation
     """,
 )
