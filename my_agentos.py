@@ -34,7 +34,6 @@ from agents.competitor_analysis_agent import *
 from agents.media_trend_analysis_agent import *
 from agents.startup_idea_validator import *
 from agents.web_extraction_agent import *
-from agents.web_search import *
 from agents.youtube_agent import *  # This is the existing YouTube agent
 
 # Import all teams
