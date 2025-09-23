@@ -18,6 +18,7 @@ def calculate_start_date(days: int) -> str:
 
 
 agent = Agent(
+    name="Media Trend Analysis Agent",
     model=OpenAIChat(id="gpt-4o"),
     tools=[
         ExaTools(start_published_date=calculate_start_date(30), type="keyword"),

@@ -30,6 +30,7 @@ from agno.tools.firecrawl import FirecrawlTools
 from agno.tools.reasoning import ReasoningTools
 
 competitor_analysis_agent = Agent(
+    name="Competitor Analysis Agent",
     model=OpenAIChat(id="gpt-4.1"),
     tools=[
         FirecrawlTools(
