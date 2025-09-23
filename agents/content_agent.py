@@ -17,7 +17,7 @@ content_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "generate_script_api_v1_ai_script_generate_post",
                 "research_topic_api_v1_ai_news_research_post",
@@ -30,6 +30,10 @@ content_agent = Agent(
                 "async_workflow_guide",
                 "upload_file_api_v1_s3_upload_post"
             ]
+        ),
+        MCPTools(
+            transport="streamable-http",
+            url=os.getenv("POSTIZ_MCP_URL")
         ),
     ],
     db=db,
@@ -61,5 +65,6 @@ content_agent = Agent(
     7. Upload content files to S3 for storage and sharing using upload_file_api_v1_s3_upload_post
     8. Coordinate with specialized media agents (Image, Video, Audio) for multimedia content
     9. Focus ONLY on text content creation - delegate media generation to specialized agents
+    10. Use POSTIZ MCP for direct social media posting when needed
     """,
 )

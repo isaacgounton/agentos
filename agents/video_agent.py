@@ -17,7 +17,7 @@ video_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "generate_video_api_v1_videos_generate_post",
                 "generate_video_from_image_api_v1_videos_from_image_post",

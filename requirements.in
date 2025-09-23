@@ -1,0 +1,73 @@
+# Core Agno framework
+agno
+
+# OpenAI integration (for embeddings and models)
+openai
+
+# Web framework for AgentOS
+fastapi[standard]
+uvicorn
+
+# Database and vector operations
+sqlalchemy
+pgvector
+psycopg2-binary
+psycopg
+chonkie
+
+# MCP (Model Context Protocol)
+mcp
+
+# Search tools
+ddgs
+exa-py
+googlesearch-python
+
+# Additional utilities
+python-dotenv
+firecrawl-py
+youtube-transcript-api
+pycountry
+anthropic
+slack-sdk
+pypdf
+yfinance
+google-genai
+newspaper4k
+lxml_html_clean
+tweepy
+arxiv
+aiofiles
+python-docx
+unstructured
+markdown
+# sentence-transformers  # Optional: for semantic embeddings in knowledge base
+
+# Required for various agent tools
+pydantic
+rich
+starlette
+
+# Analytics and data processing
+pandas>=1.5.0
+numpy>=1.21.0
+matplotlib>=3.5.0
+seaborn>=0.11.0
+plotly>=5.0.0
+scikit-learn>=1.1.0
+
+# S3 and file handling
+requests>=2.28.0
+aiofiles>=0.8.0
+
+# Reddit integration
+praw
+
+# Media processing dependencies
+Pillow
+
+# Optional packages (commented out due to setuptools compatibility issues)
+# wikipedia
+# multitasking
+# langdetect
+# sgmllib3k

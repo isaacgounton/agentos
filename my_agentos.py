@@ -16,7 +16,7 @@ from agno.os import AgentOS
 # Import all agents
 from agents.content_agent import content_agent
 from agents.engagement_agent import engagement_agent
-from agents.publisher_scheduler_agent import publisher_scheduler_agent
+from agents.postiz_agent import postiz_agent
 from agents.image_agent import image_agent
 from agents.video_agent import video_agent
 from agents.audio_agent import audio_agent
@@ -100,7 +100,7 @@ def collect_all_agents():
     # Add explicitly imported agents
     explicit_agents = [
         content_agent, engagement_agent, image_agent, video_agent, audio_agent,
-        publisher_scheduler_agent, operations_manager_agent, research_agent,
+        postiz_agent, operations_manager_agent, research_agent,
         analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent, s3_agent
     ]
     agents.extend(explicit_agents)
@@ -114,7 +114,7 @@ def collect_all_agents():
             if (isinstance(attr, Agent) and
                 attr not in agents and
                 attr not in [content_agent, engagement_agent, image_agent,
-                video_agent, audio_agent, publisher_scheduler_agent, operations_manager_agent,
+                video_agent, audio_agent, postiz_agent, operations_manager_agent,
                 research_agent, analytics_agent, twitter_agent, linkedin_agent, youtube_platform_agent, reddit_agent, s3_agent]):
                 agents.append(attr)
 

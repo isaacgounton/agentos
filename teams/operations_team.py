@@ -11,7 +11,7 @@ from agents.engagement_agent import engagement_agent
 from agents.image_agent import image_agent
 from agents.video_agent import video_agent
 from agents.audio_agent import audio_agent
-from agents.publisher_scheduler_agent import publisher_scheduler_agent
+from agents.postiz_agent import postiz_agent
 
 operations_team = Team(
     id="operations-team",
@@ -21,7 +21,7 @@ operations_team = Team(
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     db=db,
-    members=[content_agent, engagement_agent, image_agent, video_agent, audio_agent, publisher_scheduler_agent],
+    members=[content_agent, engagement_agent, image_agent, video_agent, audio_agent, postiz_agent],
     enable_user_memories=True,
     add_datetime_to_context=True,
     markdown=True,

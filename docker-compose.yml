@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   agentos:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "7777:7777"
     environment:
@@ -10,9 +12,21 @@ services:
       - OPENROUTER_MODEL_NAME=${OPENROUTER_MODEL_NAME:-anthropic/claude-3-haiku}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DATABASE_URL=${DATABASE_URL}
+      - POSTIZ_MCP_URL=${POSTIZ_MCP_URL:-https://mcp.etugrand.com/mcp}
+      - X_CONSUMER_KEY=${X_CONSUMER_KEY}
+      - X_CONSUMER_SECRET=${X_CONSUMER_SECRET}
+      - X_ACCESS_TOKEN=${X_ACCESS_TOKEN}
+      - X_ACCESS_TOKEN_SECRET=${X_ACCESS_TOKEN_SECRET}
+      - X_BEARER_TOKEN=${X_BEARER_TOKEN}
+      - REDDIT_CLIENT_ID=${REDDIT_CLIENT_ID}
+      - REDDIT_CLIENT_SECRET=${REDDIT_CLIENT_SECRET}
+      - REDDIT_USERNAME=${REDDIT_USERNAME}
+      - REDDIT_PASSWORD=${REDDIT_PASSWORD}
+      - REDDIT_USER_AGENT=${REDDIT_USER_AGENT}
     volumes:
       - ./tmp:/app/tmp
       - ./agentos.db:/app/agentos.db
+      - ./downloads:/app/downloads
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7777/"]

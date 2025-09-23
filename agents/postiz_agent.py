@@ -7,9 +7,9 @@ from agno.tools.mcp import MCPTools
 from config.database import db
 from config.knowledge import knowledge
 
-publisher_scheduler_agent = Agent(
-    name="Content Publisher & Scheduler",
-    role="Schedule and publish content to social media platforms",
+postiz_agent = Agent(
+    name="Postiz Social Media Manager",
+    role="Manage social media publishing and scheduling through Postiz",
     model=OpenRouter(
         id=os.getenv("OPENROUTER_MODEL_NAME", "anthropic/claude-3-haiku"),
         api_key=os.getenv("OPENROUTER_API_KEY")
@@ -17,13 +17,7 @@ publisher_scheduler_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
-            include_tools=[
-                "get_integrations_api_v1_postiz_integrations_get",
-                "schedule_post_api_v1_postiz_schedule_post",
-                "check_job_status",
-                "async_workflow_guide"
-            ]
+            url=os.getenv("POSTIZ_MCP_URL")
         ),
     ],
     db=db,
@@ -35,15 +29,11 @@ publisher_scheduler_agent = Agent(
     add_datetime_to_context=True,
     markdown=True,
     instructions="""
-    You are a content publisher. Your role is to:
+    You are a Postiz Social Media Manager. Your role is to:
     1. Review created content for basic quality and platform suitability
     2. Post content to appropriate social media platforms using Postiz tools
     3. Handle scheduling through Postiz platform scheduling features
     4. Monitor posting success and handle any immediate publishing errors
-    5. Use OUINHI MCP for Postiz Social Media Tools:
-       - Getting available integrations with get_integrations_api_v1_postiz_integrations_get
-       - Scheduling posts with schedule_post_api_v1_postiz_schedule_post
-       - Checking job status with check_job_status
-       - Using async workflow guide with async_workflow_guide
+    5. Use POSTIZ MCP for all Postiz social media management functionality
     """,
 )

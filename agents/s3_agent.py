@@ -166,7 +166,7 @@ s3_agent = Agent(
         S3LocalTools(),
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "upload_file_api_v1_s3_upload_post",
                 "async_workflow_guide"

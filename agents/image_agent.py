@@ -17,7 +17,7 @@ image_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "generate_image_api_v1_images_generate_post",
                 "generate_image_api_pollinations_image_generate_post",

@@ -17,7 +17,7 @@ audio_agent = Agent(
     tools=[
         MCPTools(
             transport="streamable-http",
-            url=os.getenv("OUINHI_MCP_URL", "https://mcp.etugrand.com/mcp"),
+            url=os.getenv("POSTIZ_MCP_URL", "https://mcp.etugrand.com/mcp"),
             include_tools=[
                 "create_speech_job_api_v1_audio_speech_post",
                 "transcribe_audio_api_pollinations_audio_transcribe_post",

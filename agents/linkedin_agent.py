@@ -1,6 +1,7 @@
 import os
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
+from agno.tools.mcp import MCPTools
 
 # Import shared config
 from config.database import db
@@ -14,6 +15,10 @@ linkedin_agent = Agent(
         api_key=os.getenv("OPENROUTER_API_KEY")
     ),
     tools=[
+        MCPTools(
+            transport="streamable-http",
+            url=os.getenv("POSTIZ_MCP_URL")
+        )
     ],
     db=db,
     knowledge=knowledge,

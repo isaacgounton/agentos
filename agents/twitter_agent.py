@@ -23,6 +23,7 @@ import os
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.x import XTools
+from agno.tools.mcp import MCPTools
 
 # Import shared config
 from config.database import db
@@ -39,6 +40,10 @@ twitter_agent = Agent(
         XTools(
             include_post_metrics=True,
             wait_on_rate_limit=True,
+        ),
+        MCPTools(
+            transport="streamable-http",
+            url=os.getenv("POSTIZ_MCP_URL")
         )
     ],
     db=db,
